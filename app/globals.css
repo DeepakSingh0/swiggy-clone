@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.logo {
+    stroke: currentColor;
+    fill: #fc8019;
+    stroke-width: 0;
+}
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .menu-add{
+    animation: fadeIn 0.5s ease;
+  }
