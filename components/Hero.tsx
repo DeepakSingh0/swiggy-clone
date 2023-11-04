@@ -1,12 +1,146 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 import Link from 'next/link';
 import Add from './Add';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux/es/exports';
+import { add } from '@/Redux/Cartslice';
 
 export default function Page() {
 
   const [activeSlide, setActiveSlide] = useState(0);
+  const dispatch = useDispatch();
+  const [products, setProducts] = useState([
+    {
+      id: 1,
+      image: '/img/pizza.webp',
+      price: 100,
+      alt: 'Pizza',
+    },
+    {
+      id: 2,
+      image: '/img/Burger.webp',
+      price: 150,
+      alt: 'Burger',
+    },
+    {
+      id: 3,
+      image: '/img/North.webp',
+      price: 200,
+      alt: 'North',
+    },
+    {
+      id: 4,
+      image: '/img/Cakes.webp',
+      price: 250,
+      alt: 'Cakes',
+    },
+    {
+      id: 5,
+      image: '/img/Chinese.webp',
+      price: 300,
+      alt: 'Chinese',
+    },
+    {
+      id: 6,
+      image: '/img/Biryani.webp',
+      price: 350,
+      alt: 'Biryani',
+    },
+    {
+      id: 7,
+      image: '/img/Ice_Creams.webp',
+      price: 400,
+      alt: 'Ice_Creams',
+    },
+    {
+      id: 8,
+      image: '/img/idli.webp',
+      price: 450,
+      alt: 'idli',
+    },
+    {
+      id: 9,
+      image: '/img/Pasta.webp',
+      price: 500,
+      alt: 'Pasta',
+    },
+   
+  ]);
+
+  // const imagesData = [
+  //   {
+  //   "id":1,
+  //   "image": "/img/pizza.webp",
+  //   "price":100,
+  //   "alt" :"pizza"
+  //   },
+  //   {
+  //     "id":2,
+  //   "image": "/img/pizza.webp",
+  //   "price":150,
+  //   "alt" :"pizza"
+  //   },
+  //   {
+  //   "id":3,
+  //   "image": "/img/pizza.webp",
+  //   "price":200,
+  //   "alt" :"pizza"
+  //   },
+  //   {
+  //   "id":4,
+  //   "image": "/img/pizza.webp",
+  //   "price":250,
+  //   "alt" :"pizza"
+  //   },
+  //   {
+  //     "id":5,
+  //   "image": "/img/pizza.webp",
+  //   "price":300,
+  //   "alt" :"pizza"
+  //   },
+  //   {
+  //     "id":6,
+  //   "image": "/img/pizza.webp",
+  //   "price":350,
+  //   "alt" :"pizza"
+  //   },
+  //   {
+  //     "id":7,
+  //   "image": "/img/pizza.webp",
+  //   "price":400,
+  //   "alt" :"pizza"
+  //   },
+  //   {
+  //     "id":8,
+  //   "image": "/img/pizza.webp",
+  //   "price":450,
+  //   "alt" :"pizza"
+  //   },
+  //   {
+  //     "id":9,
+  //   "image": "/img/pizza.webp",
+  //   "price":500,
+  //   "alt" :"pizza"
+  //   }
+  // ]
+   
+  useEffect(() => {
+    setProducts(products)
+  },[]);
+
+  const notify = () => toast.success('Item has been added to the cart', {
+    autoClose: 500
+    });
+
+const handleAdd = (products:any) =>{
+  dispatch(add(products));
+  notify();
+
+}
+
+  // console.log(products)
 
   const slides = [
     "/img/image1.webp",
@@ -16,6 +150,8 @@ export default function Page() {
     "/img/image5.webp",
     "/img/image6.webp",
     "/img/image7.webp",
+    "/img/image1.webp",
+    "/img/image2.webp",
    
     
   ];
@@ -63,7 +199,7 @@ export default function Page() {
 
   return (
   <>
-    <div className="min-h-screen  scroll-section bg-white py-24">
+    <div id="home" className="min-h-screen  scroll-section bg-white py-24">
       <div className="w-full h-full container mx-auto px-4 md:px-16 grid place-content-center ">
 
 
@@ -120,7 +256,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="w-full h-full mb-12">
+        <div className="w-full h-full mb-16">
           <div className="flex justify-between items-center">
             <div className=''>
               <h2 className='font-bold md:text-2xl text-lg mb-4'>What's on your mind?</h2>
@@ -140,17 +276,22 @@ export default function Page() {
             </div>
 
           </div>
+          <div className="">
+
+
           <div className="grid grid-cols-1 md:grid-cols-9 grid-flow-row md:grid-flow-col gap-4 md:gap-8 mx-auto">
-          <Add imageUrl="/img/pizza.webp" price={100} alt={'Pizza'} />
-          <Add imageUrl="/img/Burger.webp" price={150} alt={'Burger'} />
-          <Add imageUrl="/img/Chinese.webp" price={200} alt={'Chinese'} />
-          <Add imageUrl="/img/North.webp" price={250} alt={'North'} />
-          <Add imageUrl="/img/Biryani.webp" price={300} alt={'Biryani'} />
-          <Add imageUrl="/img/Rolls.webp" price={400} alt={'Rolls'} />
-          <Add imageUrl="/img/South.webp" price={450} alt={'South'} />
-          <Add imageUrl="/img/Ice_Creams.webp" price={500} alt={'Ice_Creams'} />
-          <Add imageUrl="/img/Cakes.webp" price={550} alt={'Cakes'} />
-        
+            {products.map((product) => (
+              <div key={product.id} className="col-span-1 w-full h-full">
+                <div>
+                  <Image src={product.image} width={100} height={100} alt={product.alt} className='w-full h-full' />
+                </div>
+                <h3 className="text-center text-normal text-slate-500 font-semibold">{`Rs: ${product.price}`}</h3> 
+                <div className="flex justify-center items-center">
+                  <Image onClick={() => handleAdd(product)} src="/svg/add.svg" width={100} height={100} priority alt="add" className="w-8 h-8 cursor-pointer" />
+                </div>
+              </div>
+            ))}
+          </div>   
 {/* 
                 {menuOpen && (
                   <div className="fixed top-0 right-0 w-full h-full md:w-[100vh] md:h-full flex items-center justify-center bg-white z-10">
@@ -288,7 +429,7 @@ export default function Page() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-5 grid-flow-row md:grid-flow-col gap-4 md:gap-8 mx-auto">
             <div className="col-span-1 w-full h-full">
-              <div className="bg-gray-50 w-full rounded-[16px] hover:-translate-y-2 ease-in duration-300">
+              <div className="bg-gray-50 w-full rounded-[16px] hover:scale-95 duration-100">
                 <div className='relative'>
                   <Image className="rounded-[16px] w-full h-40 object-cover bg-cover" width={1000} height={1000} priority src ="/img/restro_1.webp" alt="restro"/>
                 </div>
